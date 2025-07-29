@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earnings & Payouts</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to Right, #f0f4ff, #e0e7ff);
+    }
+
+    .mainContainer {
+      display: flex;
+      flex-direction: row;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      margin-top: 80px;
+      width: 200px;
+      background-color: #ffffff37;
+      padding: 15px;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      margin: 15px 0;
+    }
+
+    .sidebar ul li a {
+      color: gray;
+      text-decoration: none;
+    }
+
+    .sidebar ul li a:hover {
+      color: #FF6B6B;
+    }
+
+    .sidebar-menu a.active {
+      background: linear-gradient(90deg, #FF6B6B 14.9%, #FF8E53 84.62%) !important;
+      color: white;
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .sidebar-menu img {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+
+    .menu-toggle {
+      background-color: #fff;
+      color: #000;
+      padding: 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .sidebar {
+      width: 200px;
+      background-color: #fff;
+      padding: 15px;
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    .sidebar.collapsed {
+      width: 70px;
+    }
+
+    .sidebar.collapsed .menu-text {
+      display: none;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-menu img {
+      width: 30px;
+      height: 30px;
+      margin-right: 12px;
+    }
+
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      margin: 0;
+      padding: 20px;
+      padding-top: 0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #ffffff;
+      position: fixed;
+      width: 100vw;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .companylogo {
+      height: 90px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .creatorName {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
+      margin-top: 6rem;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .Creator-profile {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+        height: auto;
+        overflow: auto;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        width: 200px;
+        height: 100%;
+        z-index: 1000;
+        transition: left 0.3s ease;
+      }
+
+      .sidebar ul li {
+        margin: 10px;
+      }
+
+      .sidebar.collapsed,
+      .sidebar.active {
+        display: none;
+      }
+
+      .main {
+        margin-left: 0px;
+        padding-left: 0px;
+      }
+
+      .header {
+        align-items: flex-start;
+        padding: 16px;
+        gap: 12px;
+      }
+
+      .profile {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .creatorName {
+        font-size: 1rem;
+      }
+
+      .profile {
+        justify-content: flex-end;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        width: 200px;
+        height: 100%;
+        z-index: 1000;
+      }
+
+      .main {
+        padding: 20px;
+      }
+
+      .sidebar ul {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .sidebar ul li {
+        margin: 5px;
+      }
+
+      .creatorName {
+        font-size: 0.95rem;
+      }
+
+      .companylogo {
+        height: 50px;
+      }
+
+      .Creator-profile {
+        height: 36px;
+        width: 36px;
+      }
+
+      .profile span {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .companylogo {
+        padding-left: 20px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        width: 200px;
+        height: 100%;
+        z-index: 1000;
+        transition: left 0.3s ease;
+      }
+
+      .main {
+        padding: 20px;
+      }
+
+      .sidebar.active {
+        left: 0;
+      }
+
+      .sidebar.collapsed {
+        width: 60px;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .sidebar.collapsed .sidebar-menu a {
+        display: none;
+        background: none;
+      }
+
+      .sidebar.collapsed,
+      .sidebar.active {
+        display: none;
+      }
+    }
+
+    .tabs {
+      margin-top: 7rem;
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .tabWrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .tabWrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-button {
+      padding: 10px 20px;
+      background-color: #ddd;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .tab-button.active {
+      background: linear-gradient(90deg, #FF6B6B 14.9%, #FF8E53 84.62%) !important;
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .box-container {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .box {
+      flex: 1 1 calc(33.33% - 40px);
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      min-width: 250px;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .box:hover {
+      transform: translateY(-4px);
+    }
+
+    .filters {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      align-items: center;
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+
+
+    .filters input,
+    .filters select {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: border 0.3s ease;
+    }
+
+    .filters input:focus,
+    .filters select:focus {
+      border-color: #4f21c7;
+      outline: none;
+    }
+
+    /* Button Improvements */
+    button {
+      background: linear-gradient(90deg, #FF6B6B 14.9%, #FF8E53 84.62%) !important;
+      padding: 8px 16px;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      /* background-color: #3a1896; */
+      transform: translateY(-1px);
+    }
+
+    button:active {
+
+      transform: translateY(0);
+    }
+
+
+    .tableWapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background-color: #4F87BC;
+      color: white;
+    }
+
+    .logout {
+      text-decoration: none;
+      color: #FF6B6B;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      background-color: #fff;
+      padding: 20px;
+      width: 300px;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="header-left">
+      <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+      <img class="companylogo" src="https://i.postimg.cc/Y2Rmq9zQ/companylogo.webp" alt="">
+    </div>
+
+    <div class="profile">
+      <img class="Creator-profile" src="https://i.postimg.cc/7hKCBsZK/beneficiary.png" alt="">
+      <span>🔔</span>
+    </div>
+  </div>
+
+  <div class="mainContainer">
+    <div class="sidebar" id="sidebar">
+      <ul class="sidebar-menu">
+        <li><a href="index.html"><img src="https://i.postimg.cc/c4JtKSF2/dashboard.png" alt=""><span
+              class="menu-text">Dashboard</span></a>
+        </li>
+        <li><a href="earning&payouts.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+              class="menu-text">Earnings & Payout</span> </a></li>
+        <li><a href="creator.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+              class="menu-text">Creator</span> </a></li>
+        <li><a href="orders&products.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+              class="menu-text">Creator Orders&Product</span> </a></li>
+        <li><a href="beneficiary&payment.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+              class="menu-text">Beneficiary</span> </a></li>
+
+        <li><a href="support&dispute.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
+              class="menu-text">Support&Dispute</span> </a></li>
+        <li><a href="team&employees.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
+              class="menu-text">Team&Employees</span> </a></li>
+        <li><a href="setting.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
+              class="menu-text">Settings</span> </a></li>
+      </ul>
+      <a href="" class="logout"><span class="menu-text">Log Out</span></a>
+
+    </div>
+    <div class="main">
+      <div class="tabWrapper">
+        <div class="tabs">
+          <div class="tab-button active" onclick="showTab('commission')">Creators Commission</div>
+          <div class="tab-button" onclick="showTab('wallet')">Creators Wallet</div>
+          <div class="tab-button" onclick="showTab('request')">Payout Request</div>
+          <div class="tab-button" onclick="showTab('completed')">Payout Completed</div>
+          <div class="tab-button" onclick="showTab('invoice')">Payout Invoice</div>
+          <div class="tab-button" onclick="showTab('subscription')">Subscription Earning</div>
+        </div>
+      </div>
+
+      <div id="commission" class="tab-content active">
+        <div class="box-container">
+          <div class="box">Total Commission: ₹5000</div>
+          <div class="box">Commission Paid: ₹3000</div>
+          <div class="box">Commission Due: ₹2000</div>
+        </div>
+        <div class="filters">
+          <label>From: <input type="date" id="commissionFromDate"></label>
+          <label>To: <input type="date" id="commissionToDate"></label>
+          <select id="commissionQuickFilter">
+            <option value="">-- Quick Filter --</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="month">This Month</option>
+          </select>
+          <input type="text" id="commissionSearchInput" placeholder="Search by name or email" />
+          <select id="commissionStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
+            <option value="Suspended">Suspended</option>
+          </select>
+          <select id="commissionTypeFilter">
+            <option value="">All Types</option>
+            <option value="High Value">High Value</option>
+            <option value="New">New</option>
+            <option value="Regular">Regular</option>
+          </select>
+          <select id="commissionSortBy">
+            <option value="latest">Sort by Latest</option>
+            <option value="oldest">Sort by Oldest</option>
+          </select>
+          <button onclick="filterTable('commissionTable')">Apply</button>
+          <button onclick="resetFilter('commissionTable')">Reset</button>
+          <button onclick="downloadPDF('commissionTable', 'Commission Report')">Download PDF</button>
+          <button onclick="downloadExcel('commissionTable', 'commission')">Download Excel</button>
+        </div>
+
+        <div class="tableWapper">
+          <table id="commissionTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2025-07-20</td>
+                <td>Amit Kumar</td>
+                <td>amit@example.com</td>
+                <td>₹1500</td>
+                <td>Active</td>
+                <td>High Value</td>
+              </tr>
+              <tr>
+                <td>2025-07-18</td>
+                <td>Priya Sharma</td>
+                <td>priya@example.com</td>
+                <td>₹2000</td>
+                <td>Pending</td>
+                <td>New</td>
+              </tr>
+              <tr>
+                <td>2025-07-10</td>
+                <td>Ravi Mehra</td>
+                <td>ravi@example.com</td>
+                <td>₹1200</td>
+                <td>Suspended</td>
+                <td>Regular</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="wallet" class="tab-content">
+        <div class="box-container">
+          <div class="box">Wallet Balance: ₹4000</div>
+          <div class="box">Transactions: 45</div>
+          <div class="box">Last Refill: ₹1000</div>
+        </div>
+        <div class="filters">
+          <label>From: <input type="date" id="walletFromDate"></label>
+          <label>To: <input type="date" id="walletToDate"></label>
+          <select id="walletQuickFilter">
+            <option value="">-- Quick Filter --</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="month">This Month</option>
+          </select>
+          <input type="text" id="walletSearchInput" placeholder="Search by name or email" />
+          <select id="walletStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
+            <option value="Suspended">Suspended</option>
+          </select>
+          <select id="walletTypeFilter">
+            <option value="">All Types</option>
+            <option value="High Value">High Value</option>
+            <option value="New">New</option>
+            <option value="Regular">Regular</option>
+          </select>
+          <select id="walletSortBy">
+            <option value="latest">Sort by Latest</option>
+            <option value="oldest">Sort by Oldest</option>
+          </select>
+          <button onclick="filterTable('walletTable')">Apply</button>
+          <button onclick="resetFilter('walletTable')">Reset</button>
+          <button onclick="downloadPDF('walletTable', 'Wallet Report')">Download PDF</button>
+          <button onclick="downloadExcel('walletTable', 'wallet')">Download Excel</button>
+        </div>
+        <div class="tableWapper">
+          <table id="walletTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2025-07-21</td>
+                <td>Credit from Sale</td>
+                <td>₹800</td>
+              </tr>
+              <tr>
+                <td>2025-07-19</td>
+                <td>Withdrawal</td>
+                <td>-₹500</td>
+              </tr>
+              <tr>
+                <td>2025-07-15</td>
+                <td>Referral Bonus</td>
+                <td>₹200</td>
+              </tr>
+              <tr>
+                <td>2025-07-14</td>
+                <td>Commission Deducted</td>
+                <td>-₹150</td>
+              </tr>
+              <tr>
+                <td>2025-07-13</td>
+                <td>Refund Issued</td>
+                <td>-₹250</td>
+              </tr>
+              <tr>
+                <td>2025-07-12</td>
+                <td>Sale Income</td>
+                <td>₹1,200</td>
+              </tr>
+              <tr>
+                <td>2025-07-10</td>
+                <td>Bonus Adjustment</td>
+                <td>₹100</td>
+              </tr>
+              <tr>
+                <td>2025-07-09</td>
+                <td>Bank Withdrawal</td>
+                <td>-₹700</td>
+              </tr>
+              <tr>
+                <td>2025-07-07</td>
+                <td>Commission Refund</td>
+                <td>₹150</td>
+              </tr>
+              <tr>
+                <td>2025-07-05</td>
+                <td>System Adjustment</td>
+                <td>₹75</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ✅ Add a hidden popup form -->
+
+      <div id="approveModal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal()">&times;</span>
+          <h3>Approve Request</h3>
+          <label for="utrInput" >Enter UTR No.:</label>
+          <input type="text" id="utrInput" style="margin-top: 1rem;"  placeholder="Enter UTR No." />
+          <div style="margin-top: 10px;">
+            <button onclick="pay()">Pay</button>
+            <button onclick="closeModal()">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <div id="request" class="tab-content">
+        <div class="box-container">
+          <div class="box">Pending Requests: 5</div>
+          <div class="box">Total Amount: ₹7000</div>
+          <div class="box">Average Amount: ₹1400</div>
+        </div>
+        <div class="filters">
+          <label>From: <input type="date" id="requestFromDate"></label>
+          <label>To: <input type="date" id="requestToDate"></label>
+          <select id="requestQuickFilter">
+            <option value="">-- Quick Filter --</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="month">This Month</option>
+          </select>
+          <input type="text" id="requestSearchInput" placeholder="Search by name or email" />
+          <select id="requestStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
+            <option value="Suspended">Suspended</option>
+          </select>
+          <select id="requestTypeFilter">
+            <option value="">All Types</option>
+            <option value="High Value">High Value</option>
+            <option value="New">New</option>
+            <option value="Regular">Regular</option>
+          </select>
+          <select id="requestSortBy">
+            <option value="latest">Sort by Latest</option>
+            <option value="oldest">Sort by Oldest</option>
+          </select>
+          <button onclick="filterTable('requestTable')">Apply</button>
+          <button onclick="resetFilter('requestTable')">Reset</button>
+          <button onclick="downloadPDF('requestTable', 'Request Report')">Download PDF</button>
+          <button onclick="downloadExcel('requestTable', 'request')">Download Excel</button>
+        </div>
+        <div class="tableWapper">
+          <table id="requestTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Requested Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2025-07-26</td>
+                <td>Rahul</td>
+                <td>₹2900</td>
+                <td>Active</td>
+                <td>
+                  <button onclick="openModal()">Approve</button>
+                  <button onclick="rejectRequest(this)">Reject</button>
+                </td>
+
+              </tr>
+              <tr>
+                <td>2025-07-24</td>
+                <td>john</td>
+                <td>₹500</td>
+                <td>Pending</td>
+                <td>
+                  <button onclick="openModal()">Approve</button>
+                  <button onclick="rejectRequest(this)">Reject</button>
+                </td>
+              </tr>
+              <tr>
+                <td>2025-07-12</td>
+                <td>hitesh</td>
+                <td>₹3500</td>
+                <td>Pending</td>
+                <td>
+                  <button onclick="openModal()">Approve</button>
+                  <button onclick="rejectRequest(this)">Reject</button>
+                </td>
+              </tr>
+              <tr>
+                <td>2025-07-92</td>
+                <td>Rajeev</td>
+                <td>₹2900</td>
+                <td>Pending</td>
+                <td>
+                  <button onclick="openModal()">Approve</button>
+                  <button onclick="rejectRequest(this)">Reject</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="completed" class="tab-content">
+        <div class="box-container">
+          <div class="box">Total Paid: ₹12000</div>
+          <div class="box">Completed Requests: 10</div>
+          <div class="box">Last Paid: ₹1000</div>
+        </div>
+        <div class="filters">
+          <label>From: <input type="date" id="completedFromDate"></label>
+          <label>To: <input type="date" id="completedToDate"></label>
+          <select id="completedQuickFilter">
+            <option value="">-- Quick Filter --</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="month">This Month</option>
+          </select>
+          <input type="text" id="completedSearchInput" placeholder="Search by name or email" />
+          <select id="completedStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
+            <option value="Suspended">Suspended</option>
+          </select>
+          <select id="completedTypeFilter">
+            <option value="">All Types</option>
+            <option value="High Value">High Value</option>
+            <option value="New">New</option>
+            <option value="Regular">Regular</option>
+          </select>
+          <select id="completedSortBy">
+            <option value="latest">Sort by Latest</option>
+            <option value="oldest">Sort by Oldest</option>
+          </select>
+          <button onclick="filterTable('completedTable')">Apply</button>
+          <button onclick="resetFilter('completedTable')">Reset</button>
+          <button onclick="downloadPDF('completedTable', 'Completed Report')">Download PDF</button>
+          <button onclick="downloadExcel('completedTable', 'completed')">Download Excel</button>
+        </div>
+        <div class="tableWapper">
+          <table id="completedTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2025-07-20</td>
+                <td>Anjali</td>
+                <td>₹1000</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="invoice" class="tab-content">
+        <div class="box-container">
+          <div class="box">Total Invoices: 30</div>
+          <div class="box">Paid Invoices: 25</div>
+          <div class="box">Unpaid Invoices: 5</div>
+        </div>
+        <div class="filters">
+          <label>From: <input type="date" id="invoiceFromDate"></label>
+          <label>To: <input type="date" id="invoiceToDate"></label>
+          <select id="invoiceQuickFilter">
+            <option value="">-- Quick Filter --</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="month">This Month</option>
+          </select>
+          <input type="text" id="invoiceSearchInput" placeholder="Search by name or email" />
+          <select id="invoiceStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
+            <option value="Suspended">Suspended</option>
+          </select>
+          <select id="invoiceTypeFilter">
+            <option value="">All Types</option>
+            <option value="High Value">High Value</option>
+            <option value="New">New</option>
+            <option value="Regular">Regular</option>
+          </select>
+          <select id="invoiceSortBy">
+            <option value="latest">Sort by Latest</option>
+            <option value="oldest">Sort by Oldest</option>
+          </select>
+          <button onclick="filterTable('invoiceTable')">Apply</button>
+          <button onclick="resetFilter('invoiceTable')">Reset</button>
+          <button onclick="downloadPDF('invoiceTable', 'Invoice Report')">Download PDF</button>
+          <button onclick="downloadExcel('invoiceTable','invoice')">Download Excel</button>
+        </div>
+        <div class="tableWapper">
+          <table id="invoiceTable">
+            <thead>
+              <tr>
+                <th>Invoice ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#INV001</td>
+                <td>2025-07-15</td>
+                <td>₹2000</td>
+                <td>Paid</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="subscription" class="tab-content">
+        <div class="box-container">
+          <div class="box">Total Earnings: ₹9000</div>
+          <div class="box">Subscribers: 320</div>
+          <div class="box">This Month: ₹2500</div>
+        </div>
+        <div class="filters">
+          <label>From: <input type="date" id="subscriptionFromDate"></label>
+          <label>To: <input type="date" id="subscriptionToDate"></label>
+          <select id="subscriptionQuickFilter">
+            <option value="">-- Quick Filter --</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="month">This Month</option>
+          </select>
+          <input type="text" id="subscriptionSearchInput" placeholder="Search by name or email" />
+          <select id="subscriptionStatusFilter">
+            <option value="">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Pending">Pending</option>
+            <option value="Suspended">Suspended</option>
+          </select>
+          <select id="subscriptionTypeFilter">
+            <option value="">All Types</option>
+            <option value="High Value">High Value</option>
+            <option value="New">New</option>
+            <option value="Regular">Regular</option>
+          </select>
+          <select id="subscriptionSortBy">
+            <option value="latest">Sort by Latest</option>
+            <option value="oldest">Sort by Oldest</option>
+          </select>
+          <button onclick="filterTable('subscriptionTable')">Apply</button>
+          <button onclick="resetFilter('subscriptionTable')">Reset</button>
+          <button onclick="downloadPDF('subscriptionTable', 'Subscription Report')">Download PDF</button>
+          <button onclick="downloadExcel('subscriptionTable', 'subscription')">Download Excel</button>
+        </div>
+        <div class="tableWapper">
+          <table id="subscriptionTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Subscriber</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2025-07-21</td>
+                <td>Mohit</td>
+                <td>₹300</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const links = document.querySelectorAll('.sidebar-menu a');
+      const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
+
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        const page = href?.split('/').pop()?.replace('.html', '');
+        if (page === currentPage) {
+          link.classList.add('active');
+        }
+      });
+
+      // Initialize original rows for all tables
+      const allTableIds = [
+        'commissionTable',
+        'walletTable',
+        'requestTable',
+        'completedTable',
+        'invoiceTable',
+        'subscriptionTable'
+      ];
+
+      originalRowsById = {};
+      allTableIds.forEach(id => {
+        const rows = document.querySelectorAll(`#${id} tbody tr`);
+        originalRowsById[id] = Array.from(rows).map(row => row.cloneNode(true));
+      });
+    });
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('collapsed');
+
+      if (window.innerWidth <= 1024) {
+        sidebar.classList.toggle('active');
+      }
+    }
+
+    function showTab(id) {
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function getFilterPrefix(tableId) {
+      return tableId.replace('Table', '');
+    }
+
+    function filterTable(tableId) {
+      const prefix = getFilterPrefix(tableId);
+      const from = document.getElementById(`${prefix}FromDate`).value;
+      const to = document.getElementById(`${prefix}ToDate`).value;
+      const quick = document.getElementById(`${prefix}QuickFilter`).value;
+      const search = document.getElementById(`${prefix}SearchInput`).value.toLowerCase();
+      const status = document.getElementById(`${prefix}StatusFilter`).value.toLowerCase();
+      const type = document.getElementById(`${prefix}TypeFilter`).value.toLowerCase();
+      const sort = document.getElementById(`${prefix}SortBy`).value;
+
+      const tbody = document.querySelector(`#${tableId} tbody`);
+      tbody.innerHTML = "";
+
+      let fromDate = from ? new Date(from + "T00:00:00") : null;
+      let toDate = to ? new Date(to + "T23:59:59") : null;
+
+      const today = new Date();
+      if (quick === "today") {
+        fromDate = toDate = new Date(today.toISOString().split("T")[0]);
+      } else if (quick === "yesterday") {
+        const y = new Date();
+        y.setDate(today.getDate() - 1);
+        fromDate = toDate = new Date(y.toISOString().split("T")[0]);
+      } else if (quick === "month") {
+        fromDate = new Date(today.getFullYear(), today.getMonth(), 1);
+        toDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+      }
+
+      const rows = originalRowsById[tableId] || [];
+
+      const filtered = rows.filter(row => {
+        const dateStr = row.children[0]?.textContent?.trim() || "";
+        const rowDate = new Date(dateStr);
+
+        const col1 = row.children[1]?.textContent?.toLowerCase() || "";
+        const col2 = row.children[2]?.textContent?.toLowerCase() || "";
+        const col3 = row.children[3]?.textContent?.toLowerCase() || "";
+        const col4 = row.children[4]?.textContent?.toLowerCase() || "";
+        const col5 = row.children[5]?.textContent?.toLowerCase() || "";
+
+        const matchesDate =
+          (!fromDate || rowDate >= fromDate) && (!toDate || rowDate <= toDate);
+
+        const matchesSearch =
+          !search ||
+          col1.includes(search) ||
+          col2.includes(search) ||
+          col3.includes(search);
+
+        const matchesStatus = !status || col4 === status;
+        const matchesType = !type || col5 === type;
+
+        return matchesDate && matchesSearch && matchesStatus && matchesType;
+      });
+
+      filtered.sort((a, b) => {
+        const dateA = new Date(a.children[0]?.textContent);
+        const dateB = new Date(b.children[0]?.textContent);
+        return sort === "latest" ? dateB - dateA : dateA - dateB;
+      });
+
+      filtered.forEach(row => tbody.appendChild(row.cloneNode(true)));
+    }
+
+    function resetFilter(tableId) {
+      const prefix = getFilterPrefix(tableId);
+      document.getElementById(`${prefix}FromDate`).value = "";
+      document.getElementById(`${prefix}ToDate`).value = "";
+      document.getElementById(`${prefix}QuickFilter`).value = "";
+      document.getElementById(`${prefix}SearchInput`).value = "";
+      document.getElementById(`${prefix}StatusFilter`).value = "";
+      document.getElementById(`${prefix}TypeFilter`).value = "";
+      document.getElementById(`${prefix}SortBy`).value = "latest";
+
+      const tbody = document.querySelector(`#${tableId} tbody`);
+      tbody.innerHTML = "";
+      originalRowsById[tableId].forEach(row => tbody.appendChild(row.cloneNode(true)));
+    }
+
+    function downloadPDF(tableId, title) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.text(title, 10, 10);
+      doc.autoTable({
+        html: `#${tableId}`,
+        startY: 20
+      });
+      doc.save(`${title}.pdf`);
+    }
+
+    function downloadExcel(tableId, fileName) {
+      const table = document.getElementById(tableId);
+      const workbook = XLSX.utils.table_to_book(table);
+      XLSX.writeFile(workbook, `${fileName}.xlsx`);
+    }
+
+    function openModal() {
+      document.getElementById('approveModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('approveModal').style.display = 'none';
+      document.getElementById('utrInput').value = '';
+    }
+
+    function pay() {
+      const utr = document.getElementById('utrInput').value.trim();
+      if (!utr) {
+        alert("Please enter UTR number.");
+        return;
+      }
+      // TODO: Handle Pay action logic here
+      alert("Payment approved with UTR: " + utr);
+      closeModal();
+    }
+
+    function rejectRequest(button) {
+      if (confirm("Are you sure you want to reject this request?")) {
+        const row = button.closest("tr");
+        row.remove();
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin</title>
+    <link rel="shortcut icon" href="https://i.postimg.cc/4NF7VSMd/connectfeed.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #7367f0;
+            --primary-light: #8f85f3;
+            --primary-dark: #5a4fcf;
+            --secondary-color: #82868b;
+            --success-color: #28c76f;
+            --danger-color: #ea5455;
+            --warning-color: #ff9f43;
+            --info-color: #00cfe8;
+            --dark-color: #4b4b4b;
+            --light-color: #f8f8f8;
+            --white: #fff;
+            --black: #000;
+            --primary-blue: #3498db;
+            --light-blue: #5dade2;
+            --dark-blue: #2980b9;
+            --text-color: #ecf0f1;
+            --sidebar-width: 260px;
+            --sidebar-collapsed-width: 80px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+
+
+        .mainContainer {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+            overflow: hidden;
+
+        }
+
+
+        .sidebar {
+            margin-top: 80px;
+            width: 200px;
+            background-color: #ffffff37;
+            padding: 15px;
+        }
+
+
+
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            /* text-align: center; */
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            color: gray;
+            text-decoration: none;
+        }
+
+        .sidebar ul li a:hover {
+            color: #FF6B6B;
+        }
+
+        .sidebar-menu a.active {
+            background: linear-gradient(90deg, #FF6B6B 14.9%, #FF8E53 84.62%) !important;
+            color: white;
+            border-radius: 8px;
+            padding: 8px;
+        }
+
+        .sidebar-menu img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .menu-toggle {
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+
+
+            background-color: #fff;
+            color: #000;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 1001;
+            /* will be shown on small screens */
+        }
+
+
+        /* Sidebar default styles */
+        .sidebar {
+            width: 200px;
+            background-color: #fff;
+            padding: 15px;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        /* Collapsed Sidebar (for large screen toggle) */
+        .sidebar.collapsed {
+            width: 70px;
+
+        }
+
+        .sidebar.collapsed .menu-text {
+            display: none;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-menu img {
+            width: 30px;
+            height: 30px;
+            margin-right: 12px;
+        }
+
+        .main {
+            flex: 1;
+            background-color: rgba(239, 239, 239, 0.51);
+            overflow-y: auto;
+            margin: 0;
+            padding: 20px;
+            padding-top: 0;
+        }
+
+        /* Base styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); */
+            position: fixed;
+            width: 100vw;
+            top: 0;
+            z-index: 1000;
+            /* margin-left: -20px; */
+
+            /* border-radius: 30px; */
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .companylogo {
+            height: 90px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .creatorName {
+            margin-top: 5rem;
+            font-size: 24px;
+
+            /* Or any desired size */
+            font-weight: bold;
+            background: linear-gradient(135deg, #cc89e7 0%, #7c4a90 100%);
+            /* Your gradient colors */
+            -webkit-background-clip: text;
+            /* For WebKit browsers */
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            /* For WebKit browsers */
+            color: transparent;
+            /* For other browsers, as a fallback, though -webkit-text-fill-color is more robust */
+
+
+            /* background: linear-gradient(to right, #f83600dc, #fe8c00); */
+            padding: 12px 24px;
+            border-radius: 12px;
+            /* margin-bottom: 20px; */
+            /* background: linear-gradient(to right, #0f2027, #203a43, #2c5364); */
+            display: inline-block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .Creator-profile {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                height: auto;
+                overflow: auto;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                /* left: -100%; */
+                width: 200px;
+                height: 100%;
+                z-index: 1000;
+                /* background-color: white; */
+                transition: left 0.3s ease;
+            }
+
+            .sidebar ul li {
+                margin: 10px;
+            }
+
+            .sidebar.collapsed,
+            .sidebar.active {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0px;
+                padding-left: 0px;
+            }
+
+            .header {
+                /* flex-direction: column; */
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .profile {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .creatorName {
+                font-size: 1rem;
+            }
+
+            .profile {
+                justify-content: flex-end;
+            }
+        }
+
+        @media (max-width: 480px) {
+           
+
+
+
+            
+
+              body {
+                flex-direction: column;
+                height: auto;
+                overflow: auto;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                /* left: -100%; */
+                width: 200px;
+                height: 100%;
+                z-index: 1000;
+                /* background-color: white; */
+                transition: left 0.3s ease;
+            }
+
+            .sidebar ul li {
+                margin: 10px;
+            }
+
+            .sidebar.collapsed,
+            .sidebar.active {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0px;
+                padding-left: 0px;
+            }
+
+            .header {
+                /* flex-direction: column; */
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .profile {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .creatorName {
+                font-size: 1rem;
+            }
+
+            .profile {
+                justify-content: flex-end;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .companylogo {
+                padding-left: 20px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                /* left: -100%; */
+                width: 200px;
+                height: 100%;
+                z-index: 1000;
+                /* background-color: white; */
+                transition: left 0.3s ease;
+
+
+            }
+
+
+            .main {
+                padding: 20px;
+                /* margin-left: 60px; */
+
+            }
+
+            /* Show sidebar */
+            .sidebar.active {
+                left: 0;
+            }
+
+            /* Optional: If you want small version (like mini menu) */
+            .sidebar.collapsed {
+                width: 60px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+
+            .sidebar.collapsed .sidebar-menu a {
+                display: none;
+                background: none;
+
+            }
+
+            .sidebar.collapsed,
+            .sidebar.active {
+                display: none;
+            }
+
+        }
+
+
+
+
+
+
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-color);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid #e6e6e6;
+            border-radius: 6px;
+            font-family: inherit;
+            transition: var(--transition);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 3px 10px 0 rgba(115, 103, 240, 0.1);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notification,
+        .message {
+            position: relative;
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .notification:hover,
+        .message:hover {
+            color: var(--primary-color);
+        }
+
+        .notification .badge,
+        .message .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            margin-left: 0;
+        }
+
+        .theme-toggle {
+            color: var(--secondary-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            color: var(--primary-color);
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+        }
+
+        /* Stats Cards */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            /* background-color: var(--primary-light); */
+            border-radius: 10px;
+            box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px 0 rgba(34, 41, 47, 0.1);
+        }
+
+        .stat-card {
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #aceae12a 0%, #aceae192 100%);
+
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--white);
+
+            margin-bottom: 1rem;
+        }
+
+        .card-icon {
+            background-color: rgba(114, 103, 240, 0.052);
+            color: var(--primary-color);
+        }
+
+        .card-icon.green {
+            background-color: rgba(40, 199, 111, 0.15);
+            color: var(--success-color);
+        }
+
+        .card-icon.orange {
+            background-color: rgba(255, 159, 67, 0.15);
+            color: var(--warning-color);
+        }
+
+        .card-icon.purple {
+            background-color: rgba(156, 39, 176, 0.15);
+            color: #9c27b0;
+        }
+
+        .card-info h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .card-info p {
+            font-size: 0.875rem;
+            color: var(--secondary-color);
+        }
+
+
+
+        /* Row & Columns */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -0.75rem 1.5rem;
+            align-items: stretch;
+        }
+
+        .col-lg-8 {
+            flex: 0 0 66.666667%;
+            max-width: 66.666667%;
+            padding: 0 0.75rem;
+        }
+
+        .col-lg-4 {
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+            padding: 0 0.75rem;
+        }
+
+        .col-lg-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding: 0 0.75rem;
+        }
+
+        /* Card Styles */
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(34, 41, 47, 0.05);
+        }
+
+        .card-header h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .card-actions select {
+            padding: 0.375rem 1rem;
+            border: 1px solid #e6e6e6;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.875rem;
+            color: var(--secondary-color);
+            transition: var(--transition);
+        }
+
+        .card-actions select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+        }
+
+        .view-all {
+            font-size: 0.875rem;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+
+        }
+
+        /* Table Styles */
+        .table-responsive {
+            overflow-x: auto;
+
+
+
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+
+
+        }
+
+        .orders-table th {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--secondary-color);
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background-color: rgba(34, 41, 47, 0.05);
+        }
+
+        .orders-table td {
+            font-size: 0.875rem;
+            border-bottom: 1px solid rgba(34, 41, 47, 0.05);
+        }
+
+        .status {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        .status.completed {
+            background-color: rgba(40, 199, 111, 0.12);
+            color: var(--success-color);
+        }
+
+        .status.pending {
+            background-color: rgba(255, 159, 67, 0.12);
+            color: var(--warning-color);
+        }
+
+        .status.processing {
+            background-color: rgba(0, 207, 232, 0.12);
+            color: var(--info-color);
+        }
+
+        .status.cancelled {
+            background-color: rgba(234, 84, 85, 0.12);
+            color: var(--danger-color);
+        }
+
+        /* Products List */
+        .products-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .product-item:hover {
+            background-color: rgba(34, 41, 47, 0.03);
+        }
+
+        .product-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info h4 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .product-info p {
+            font-size: 0.75rem;
+            color: var(--secondary-color);
+        }
+
+        .product-stats {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .sales {
+            font-size: 0.75rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            color: var(--warning-color);
+            font-size: 0.75rem;
+        }
+
+        .rating i {
+            margin-right: 0.25rem;
+        }
+
+        /* Animations */
+        .animate-pop {
+            animation: popIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .animate-slide {
+            animation: slideIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideIn {
+            0% {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Dark Mode */
+        .dark-mode {
+            background-color: #2a2e3f;
+            color: #b4b7bd;
+        }
+
+        .dark-mode .sidebar,
+        .dark-mode .top-nav,
+        .dark-mode .card,
+        .dark-mode .orders-table th {
+            background-color: #283046;
+            color: #b4b7bd;
+        }
+
+        .dark-mode .sidebar-menu li a:hover,
+        .dark-mode .product-item:hover {
+            background-color: rgba(115, 103, 240, 0.08);
+        }
+
+        .dark-mode .sidebar-footer,
+        .dark-mode .card-header {
+            border-color: #3b4253;
+        }
+
+        .dark-mode .orders-table td {
+            border-color: #3b4253;
+        }
+
+        .dark-mode .page-title,
+        .dark-mode .card-header h3,
+        .dark-mode .product-info h4,
+        .dark-mode .card-info h3 {
+            color: #d0d2d6;
+        }
+
+        .dark-mode .search-box input,
+        .dark-mode .card-actions select {
+            background-color: #283046;
+            border-color: #404656;
+            color: #b4b7bd;
+        }
+
+        .dark-mode .search-box input:focus,
+        .dark-mode .card-actions select:focus {
+            border-color: var(--primary-light);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .col-lg-8 {
+                flex: 0 0 100%;
+                margin-bottom: 1.5rem;
+                ;
+                max-width: 100%;
+            }
+
+            .col-lg-4 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .col-lg-6 {
+                flex: 0 0 100%;
+                margin-bottom: 1.5rem;
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 992px) {
+
+
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-box {
+                width: 200px;
+            }
+
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .card-actions {
+                width: 100%;
+            }
+
+            .card-actions select {
+                width: 100%;
+            }
+
+            .view-all {
+                align-self: flex-end;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .stats-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+
+            .dashboard-content {
+                padding: 1rem;
+            }
+
+            .card-body canvas {
+                height: 250px !important;
+                width: auto;
+            }
+
+
+        }
+
+        .card-body canvas {
+            height: 300px !important;
+        }
+
+        .orders-table {
+            overflow-x: auto;
+            width: 100% !important;
+            height: 525px !important;
+
+
+        }
+
+        /* Responsive Table Container */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        /* Table Styling */
+        .top-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Table Header */
+        .top-table thead {
+            background-color: #4F87BC;
+            color: #fff;
+        }
+
+        .top-table thead th {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Table Body */
+        .top-table tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.2s ease;
+        }
+
+        .top-table tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .top-table tbody td {
+            font-size: 14px;
+            color: #333;
+        }
+
+        /* Rank Column */
+        .top-table tbody td:first-child {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Performance Cell Styling */
+        .top-table tbody td:last-child {
+            font-weight: 500;
+            color: #555;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .top-table thead {
+                display: none;
+            }
+
+            .top-table,
+            .top-table tbody,
+            .top-table tr,
+            .top-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .top-table tr {
+                margin-bottom: 15px;
+                border: 1px solid #eee;
+                border-radius: 10px;
+                padding: 10px;
+            }
+
+            .top-table td {
+                text-align: right;
+                position: relative;
+                padding-left: 50%;
+            }
+
+            .top-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 16px;
+                top: 12px;
+                font-weight: bold;
+                color: #888;
+                text-align: left;
+            }
+        }
+
+        .toggle-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            background: linear-gradient(to right, #f83600dc, #fe8c00);
+            /* inactive default */
+            opacity: 0.7;
+            transition: 0.3s ease;
+        }
+
+        /* Hover effect */
+        .toggle-buttons button:hover {
+            opacity: 1;
+        }
+
+        /* Active button style */
+        .toggle-buttons button.active {
+            background: linear-gradient(90deg, #FF6B6B 14.9%, #FF8E53 84.62%) !important;
+            opacity: 1;
+            box-shadow: 0 0 10px rgba(255, 99, 71, 0.5);
+        }
+
+        .logout {
+            text-decoration: none;
+            color: #FF6B6B;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-left">
+            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+            <img class="companylogo" src="https://i.postimg.cc/Y2Rmq9zQ/companylogo.webp" alt="">
+        </div>
+
+
+        <div class="profile">
+            <span id="currentTime"></span>
+
+            <img class="Creator-profile" src="https://i.postimg.cc/7hKCBsZK/beneficiary.png" alt="">
+
+            <span>🔔</span>
+
+        </div>
+    </div>
+    <div class="mainContainer">
+        <div class="sidebar" id="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><img src="https://i.postimg.cc/c4JtKSF2/dashboard.png" alt=""><span
+                            class="menu-text">Dashboard</span></a>
+                </li>
+                <li><a href="earning&payouts.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+                            class="menu-text">Earnings & Payout</span> </a></li>
+                <li><a href="creator.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+                            class="menu-text">Creator</span> </a></li>
+                <li><a href="orders&products.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+                            class="menu-text">Creator Orders&Product</span> </a></li>
+                <li><a href="beneficiary&payment.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png"
+                            alt=""><span class="menu-text">Beneficiary</span> </a></li>
+                <li><a href="support&dispute.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
+                            class="menu-text">Support&Dispute</span> </a></li>
+                <li><a href="team&employees.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
+                            class="menu-text">Team&Employees</span> </a></li>
+
+                <li><a href="setting.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
+                            class="menu-text">Settings</span> </a></li>
+
+            </ul>
+            <a href="" class="logout"><span class="menu-text">Log Out</span></a>
+        </div>
+        <div class="main">
+            <div class="creatorName"> <span>
+                    <h4>Welcome back, Super Admin </h4>
+                </span></div>
+
+            <div class="stats-cards">
+                <div class="card stat-card animate-pop">
+                    <div class="card-icon ">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>$12,345</h3>
+                        <p>Total Revenue</p>
+                    </div>
+
+                </div>
+
+                <div class="card stat-card animate-pop" style="animation-delay: 0.2s;">
+                    <div class="card-icon green">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>1,234</h3>
+                        <p>Total Users</p>
+                    </div>
+
+                </div>
+
+                <div class="card stat-card animate-pop" style="animation-delay: 0.4s;">
+                    <div class="card-icon orange">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>567</h3>
+                        <p>Total Orders</p>
+                    </div>
+
+                </div>
+
+                <div class="card stat-card animate-pop" style="animation-delay: 0.6s;">
+                    <div class="card-icon purple">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="card-info">
+                        <h3>89%</h3>
+                        <p>Conversion</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card animate-slide">
+                        <div class="card-header">
+                            <h3>Sales Overview</h3>
+                            <div class="card-actions">
+                                <select id="sales-range" onchange="updateSalesChart(this.value)">
+                                    <option>Last 7 Days</option>
+                                    <option>Last 30 Days</option>
+                                    <option>Last 90 Days</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card animate-slide" style="animation-delay: 0.2s;">
+                        <div class="card-header">
+                            <h3>Revenue Sources</h3>
+                            <div class="card-actions">
+                                <select id="revenue-range" onchange="updateRevenueChart(this.value)">
+                                    <option>Last 7 Days</option>
+                                    <option>Last 30 Days</option>
+                                    <option>Last 90 Days</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Orders & Top Products -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card animate-slide">
+                        <div class="card-header" style="flex-direction:row ;">
+                            <h3 style="padding: 8px 20px;">Recent Orders</h3>
+                            <a href="#" class="view-all" style="padding: 8px 20px;">View All</a>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="orders-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>Customer</th>
+                                            <th>Status</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>#ORD-1234</td>
+                                            <td>John Doe</td>
+                                            <td><span class="status completed">Completed</span></td>
+                                            <td>$125.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>#ORD-1233</td>
+                                            <td>Sarah Smith</td>
+                                            <td><span class="status pending">Pending</span></td>
+                                            <td>$89.50</td>
+                                        </tr>
+                                        <tr>
+                                            <td>#ORD-1232</td>
+                                            <td>Michael Johnson</td>
+                                            <td><span class="status processing">Processing</span></td>
+                                            <td>$234.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>#ORD-1231</td>
+                                            <td>Emily Davis</td>
+                                            <td><span class="status completed">Completed</span></td>
+                                            <td>$156.75</td>
+                                        </tr>
+                                        <tr>
+                                            <td>#ORD-1230</td>
+                                            <td>Robert Wilson</td>
+                                            <td><span class="status cancelled">Cancelled</span></td>
+                                            <td>$67.20</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card animate-slide influencer-card" style="animation-delay: 0.2s;">
+                        <div class="card-header">
+                            <h3 id="topTableTitle">Top Influencers</h3>
+
+                            <div class="toggle-buttons">
+                                <button onclick="loadTopTable('Top Influencers')">Influencers</button>
+                                <button onclick="loadTopTable('Top Sellers')">Sellers</button>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="orders-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Category</th>
+                                            <th>Performance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="top-table-body">
+                                        <!-- Filled dynamically by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="filter-section">
+
+
+
+                <div class="card animate-slide" style="max-width: 800px; align-items: center; ">
+                    <div class="card-header" style="flex-direction: row;">
+                        <h3 style="padding: 8px 20px;">Top Employees</h3>
+                        <a href="#" class="view-all" style="padding: 8px 20px;">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Employee ID</th>
+                                        <th>Name</th>
+                                        <th>Department</th>
+                                        <th>Performance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#EMP-001</td>
+                                        <td>Aarav Mehta</td>
+                                        <td>Sales</td>
+                                        <td><span class="status completed">Excellent</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#EMP-002</td>
+                                        <td>Sneha Sharma</td>
+                                        <td>Marketing</td>
+                                        <td><span class="status processing">Very Good</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#EMP-003</td>
+                                        <td>Rohit Verma</td>
+                                        <td>Development</td>
+                                        <td><span class="status pending">Good</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#EMP-004</td>
+                                        <td>Priya Singh</td>
+                                        <td>Design</td>
+                                        <td><span class="status completed">Excellent</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>#EMP-005</td>
+                                        <td>Aditya Rao</td>
+                                        <td>Support</td>
+                                        <td><span class="status cancelled">Average</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Highlight sidebar
+            const links = document.querySelectorAll('.sidebar-menu a');
+            const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
+
+            links.forEach(link => {
+                const href = link.getAttribute('href');
+                const page = href?.split('/').pop()?.replace('.html', '');
+                if (page === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Sidebar toggle
+            const toggleBtn = document.querySelector('.menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+            toggleBtn?.addEventListener('click', () => {
+                sidebar.classList.toggle('collapsed');
+                if (window.innerWidth <= 1024) {
+                    sidebar.classList.toggle('active');
+                }
+            });
+
+
+            loadTopTable('Top Influencers');
+
+
+        });
+
+
+        // Initialize Charts
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+
+        // Sales Chart
+        const salesChart = new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                datasets: [{
+                    label: 'Sales',
+                    data: [12000, 19000, 15000, 22000, 20000, 25000, 28000],
+                    backgroundColor: 'rgba(115, 103, 240, 0.1)',
+                    borderColor: 'rgba(115, 103, 240, 1)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: 'rgba(115, 103, 240, 1)',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#283046',
+                        titleColor: '#fff',
+                        bodyColor: '#b4b7bd',
+                        borderColor: '#3b4253',
+                        borderWidth: 1,
+                        padding: 12,
+                        displayColors: false,
+                        callbacks: {
+                            label: function (context) {
+                                return '$' + context.parsed.y.toLocaleString();
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: document.body.classList.contains('dark-mode') ? '#b4b7bd' : '#6e6b7b'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            color: document.body.classList.contains('dark-mode') ? '#3b4253' : 'rgba(34, 41, 47, 0.05)',
+                            borderDash: [5]
+                        },
+                        ticks: {
+                            color: document.body.classList.contains('dark-mode') ? '#b4b7bd' : '#6e6b7b',
+                            callback: function (value) {
+                                return '$' + value / 1000 + 'k';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Revenue Chart
+        const revenueChart = new Chart(revenueCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Direct', 'Affiliate', 'Sponsored', 'Email'],
+                datasets: [{
+                    data: [55, 25, 15, 5],
+                    backgroundColor: [
+                        'rgba(115, 103, 240, 1)',
+                        'rgba(40, 199, 111, 1)',
+                        'rgba(255, 159, 67, 1)',
+                        'rgba(0, 207, 232, 1)'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            color: document.body.classList.contains('dark-mode') ? '#b4b7bd' : '#6e6b7b'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#283046',
+                        titleColor: '#fff',
+                        bodyColor: '#b4b7bd',
+                        borderColor: '#3b4253',
+                        borderWidth: 1,
+                        padding: 12,
+                        callbacks: {
+                            label: function (context) {
+                                return context.label + ': ' + context.raw + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+
+        function updateRevenueChart(range) {
+            let data = [];
+
+            if (range === "Last 7 Days") {
+                data = [55, 25, 15, 5];
+            } else if (range === "Last 30 Days") {
+                data = [40, 30, 20, 10];
+            } else if (range === "Last 90 Days") {
+                data = [35, 30, 25, 10];
+            }
+
+            // Update chart data
+            revenueChart.data.datasets[0].data = data;
+            revenueChart.update();
+        }
+
+
+        function updateSalesChart(range) {
+            let labels = [];
+            let data = [];
+
+            if (range === "Last 7 Days") {
+                labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                data = [12000, 15000, 11000, 18000, 17000, 22000, 25000];
+            } else if (range === "Last 30 Days") {
+                labels = Array.from({ length: 30 }, (_, i) => `Day ${i + 1}`);
+                data = Array.from({ length: 30 }, () => Math.floor(Math.random() * 30000 + 5000));
+            } else if (range === "Last 90 Days") {
+                labels = Array.from({ length: 12 }, (_, i) => `Week ${i + 1}`);
+                data = Array.from({ length: 12 }, () => Math.floor(Math.random() * 35000 + 8000));
+            }
+
+            // Update chart data
+            salesChart.data.labels = labels;
+            salesChart.data.datasets[0].data = data;
+            salesChart.update();
+        }
+
+
+        // Update chart colors when theme changes
+        themeToggle.addEventListener('click', function () {
+            updateChartColors();
+        });
+
+        function updateChartColors() {
+            const isDarkMode = document.body.classList.contains('dark-mode');
+
+            // Update Sales Chart
+            salesChart.options.scales.x.ticks.color = isDarkMode ? '#b4b7bd' : '#6e6b7b';
+            salesChart.options.scales.y.ticks.color = isDarkMode ? '#b4b7bd' : '#6e6b7b';
+            salesChart.options.scales.y.grid.color = isDarkMode ? '#3b4253' : 'rgba(34, 41, 47, 0.05)';
+            salesChart.update();
+
+            // Update Revenue Chart
+            revenueChart.options.plugins.legend.labels.color = isDarkMode ? '#b4b7bd' : '#6e6b7b';
+            revenueChart.update();
+        }
+
+        // Responsive adjustments
+        window.addEventListener('resize', function () {
+            salesChart.resize();
+            revenueChart.resize();
+        });
+
+        // Animate elements when they come into view
+        const animateOnScroll = function () {
+            const elements = document.querySelectorAll('.animate-pop, .animate-slide');
+
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (elementPosition < windowHeight - 100) {
+                    element.style.animationPlayState = 'running';
+                }
+            });
+        };
+
+        // Run once on page load
+        animateOnScroll();
+
+        // Run on scroll
+        window.addEventListener('scroll', animateOnScroll);
+
+        function loadTopTable(type) {
+            const dataMap = {
+                "Top Influencers": [
+                    { name: "Amit Sharma", category: "Fitness", performance: "4.9 ★" },
+                    { name: "Nisha Kapoor", category: "Fashion", performance: "4.8 ★" },
+                    { name: "Rahul Jain", category: "Tech", performance: "4.7 ★" },
+                    { name: "Priya Mehta", category: "Travel", performance: "4.6 ★" },
+                    { name: "Kunal Roy", category: "Gaming", performance: "4.5 ★" }
+                ],
+                "Top Sellers": [
+                    { name: "Ankit Verma", category: "Electronics", performance: "2,300 Sales" },
+                    { name: "Pooja Singh", category: "Audio", performance: "1,980 Sales" },
+                    { name: "Ravi Kumar", category: "Fitness", performance: "1,620 Sales" },
+                    { name: "Sneha Patel", category: "Computers", performance: "1,540 Sales" },
+                    { name: "Mohit Sinha", category: "Accessories", performance: "1,450 Sales" }
+                ]
+
+            };
+
+            // Update table
+            const tableBody = document.getElementById('top-table-body');
+            const header = document.querySelector('.influencer-card .card-header h3');
+
+            const data = dataMap[type];
+            if (header) header.textContent = type;
+
+            if (data && tableBody) {
+                tableBody.innerHTML = '';
+                data.forEach((item, index) => {
+                    const row = `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${item.name}</td>
+          <td>${item.category}</td>
+          <td>${item.performance}</td>
+        </tr>`;
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                });
+            }
+
+            // Set active button
+            const buttons = document.querySelectorAll('.toggle-buttons button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.includes(type.split(' ')[1])) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+
+
+
+        const summaryData = [
+            { label: 'Total Orders', value: orderStats.totalOrders, class: 'total' },
+            { label: 'Completed Orders', value: orderStats.completedOrders, class: 'completed' },
+            { label: 'Pending Orders', value: orderStats.pendingOrders, class: 'pending' },
+            { label: 'Cancelled Orders', value: orderStats.cancelledOrders, class: 'cancelled' },
+        ];
+
+        const summaryContainer = document.getElementById('orderSummary');
+
+        summaryData.forEach(stat => {
+            const card = document.createElement('div');
+            card.className = `card ${stat.class}`;
+            card.innerHTML = `
+        <h4>${stat.label}</h4>
+        <p>${stat.value}</p>
+      `;
+            summaryContainer.appendChild(card);
+        });
+
+
+    </script>
+
+</body>
+
+
+</html>

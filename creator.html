@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator</title>
+    <link rel="shortcut icon" href="https://i.postimg.cc/4NF7VSMd/connectfeed.png" type="image/x-icon">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(to Right, #f0f4ff, #e0e7ff);
+
+        }
+
+        .mainContainer {
+            display: flex;
+            flex-direction: row;
+            height: 100vh;
+            overflow: hidden;
+
+        }
+
+
+        .sidebar {
+            margin-top: 80px;
+            width: 200px;
+            background-color: #ffffff37;
+            padding: 15px;
+        }
+
+
+
+
+        .sidebar h2 {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            /* text-align: center; */
+        }
+
+        .sidebar ul li {
+            margin: 15px 0;
+        }
+
+        .sidebar ul li a {
+            color: gray;
+            text-decoration: none;
+        }
+
+        .sidebar ul li a:hover {
+            color: #FF6B6B;
+        }
+
+        .sidebar-menu a.active {
+            background: linear-gradient(90deg, #FF6B6B 14.9%, #FF8E53 84.62%) !important;
+            color: white;
+            border-radius: 8px;
+            padding: 8px;
+        }
+
+        .sidebar-menu img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .menu-toggle {
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+
+
+            background-color: #fff;
+            color: #000;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 1001;
+            /* will be shown on small screens */
+        }
+
+
+        /* Sidebar default styles */
+        .sidebar {
+            width: 200px;
+            background-color: #fff;
+            padding: 15px;
+            transition: width 0.3s ease, left 0.3s ease;
+        }
+
+        /* Collapsed Sidebar (for large screen toggle) */
+        .sidebar.collapsed {
+            width: 70px;
+
+        }
+
+        .sidebar.collapsed .menu-text {
+            display: none;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-menu img {
+            width: 30px;
+            height: 30px;
+            margin-right: 12px;
+        }
+
+        .main {
+            flex: 1;
+            overflow-y: auto;
+            margin: 0;
+            padding: 20px;
+            padding-top: 0;
+
+        }
+
+        /* Base styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); */
+            position: fixed;
+            width: 100vw;
+            top: 0;
+            z-index: 1000;
+            /* margin-left: -20px; */
+
+            /* border-radius: 30px; */
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .companylogo {
+            height: 90px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .creatorName {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #333;
+            margin-top: 6rem;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .Creator-profile {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                height: auto;
+                overflow: auto;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 0;
+                /* left: -100%; */
+                width: 200px;
+                height: 100%;
+                z-index: 1000;
+                /* background-color: white; */
+                transition: left 0.3s ease;
+            }
+
+            .sidebar ul li {
+                margin: 10px;
+            }
+
+            .collapsed,
+            .active {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0px;
+                padding-left: 0px;
+            }
+
+            .header {
+                /* flex-direction: column; */
+                align-items: flex-start;
+                padding: 16px;
+                gap: 12px;
+            }
+
+            .profile {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .creatorName {
+                font-size: 1rem;
+            }
+
+            .profile {
+                justify-content: flex-end;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                /* left: -100%; */
+                width: 200px;
+                height: 100%;
+                z-index: 1000;
+                /* background-color: white; */
+                transition: left 0.3s ease;
+            }
+
+
+
+            .main {
+
+                padding: 20px;
+            }
+
+            .sidebar ul {
+                display: flex;
+                flex-direction: column;
+
+
+            }
+
+            .sidebar ul li {
+                margin: 5px;
+            }
+
+            .creatorName {
+                font-size: 0.95rem;
+            }
+
+            .companylogo {
+                height: 50px;
+            }
+
+            .Creator-profile {
+                height: 36px;
+                width: 36px;
+            }
+
+            .profile span {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .companylogo {
+                padding-left: 20px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                /* left: -100%; */
+                width: 200px;
+                height: 100%;
+                z-index: 1000;
+                /* background-color: white; */
+                transition: left 0.3s ease;
+
+
+            }
+
+
+            .main {
+                padding: 20px;
+                /* margin-left: 60px; */
+
+            }
+
+            /* Show sidebar */
+            .sidebar.active {
+                left: 0;
+            }
+
+            /* Optional: If you want small version (like mini menu) */
+            .sidebar.collapsed {
+                width: 60px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+
+            .sidebar.collapsed .sidebar-menu a {
+                display: none;
+                background: none;
+
+            }
+
+            .collapsed,
+            .active {
+                display: none;
+            }
+
+        }
+
+        .addCreator {
+            display: flex;
+            justify-content: right;
+        }
+
+        .modal {
+
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            max-width: 20rem;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 20px;
+
+        }
+
+        .modal-content input {
+            width: 100%;
+
+            padding: 10px;
+            outline: 0;
+            border: 1px solid rgba(105, 105, 105, 0.397);
+            border-radius: 10px;
+
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+        }
+
+        .modal-content form label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+
+        .container {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .box {
+            flex: 1 1 calc(33.33% - 40px);
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            min-width: 250px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .box:hover {
+            transform: translateY(-4px);
+        }
+
+        .icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .label {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4f21c7;
+        }
+
+        @media (max-width: 768px) {
+            .box {
+                flex: 1 1 calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .box {
+                flex: 1 1 100%;
+            }
+        }
+
+        .filters {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+
+
+        .filters input,
+        .filters select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border 0.3s ease;
+        }
+
+        .filters input:focus,
+        .filters select:focus {
+            border-color: #4f21c7;
+            outline: none;
+        }
+
+        /* Button Improvements */
+        button {
+            padding: 8px 16px;
+            background: linear-gradient(90deg, #FF6B6B 14.9%, #FF8E53 84.62%) !important;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #3a1896;
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .tableWapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4F87BC;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .actions {
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .filters {
+                flex-direction: column;
+            }
+        }
+
+        .logout {
+            text-decoration: none;
+            color: #FF6B6B;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="menu-toggle" onclick="toggleSidebar()">☰</div>
+
+            <img class="companylogo" src="https://i.postimg.cc/Y2Rmq9zQ/companylogo.webp" alt="">
+        </div>
+
+
+        <div class="profile">
+
+            <img class="Creator-profile" src="https://i.postimg.cc/7hKCBsZK/beneficiary.png" alt="">
+
+            <span>🔔</span>
+
+        </div>
+    </div>
+    <div class="mainContainer">
+        <div class="sidebar" id="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><img src="https://i.postimg.cc/c4JtKSF2/dashboard.png" alt=""><span
+                            class="menu-text">Dashboard</span></a>
+                </li>
+                <li><a href="earning&payouts.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+                            class="menu-text">Earnings & Payout</span> </a></li>
+                <li><a href="creator.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+                            class="menu-text">Creator</span> </a></li>
+                <li><a href="orders&products.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+                            class="menu-text">Creator Orders&Product</span> </a></li>
+                <li><a href="beneficiary&payment.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png"
+                            alt=""><span class="menu-text">Beneficiary</span> </a></li>
+
+                <li><a href="support&dispute.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
+                            class="menu-text">Support&Dispute</span> </a></li>
+                <li><a href="team&employees.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
+                            class="menu-text">Team&Employees</span> </a></li>
+                <li><a href="setting.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
+                            class="menu-text">Settings</span> </a></li>
+
+            </ul>
+            <a href="" class="logout"><span class="menu-text">Log Out</span></a>
+
+        </div>
+
+
+        <div class="main">
+            <div class="addCreator">
+                <button id="addCreatorBtn" style="margin-top: 7rem; ">➕ Add Creator</button>
+            </div>
+
+            <div class="container">
+                <div class="box">
+                    <div class="icon">🆕</div>
+                    <div class="label">New Creators</div>
+                    <div class="value">12</div>
+                </div>
+                <div class="box">
+                    <div class="icon">👥</div>
+                    <div class="label">Total Creators</div>
+                    <div class="value">235</div>
+                </div>
+                <div class="box">
+                    <div class="icon">💰</div>
+                    <div class="label">Pending Payouts</div>
+                    <div class="value">$1,200</div>
+                </div>
+                <div class="box">
+                    <div class="icon">⚠️</div>
+                    <div class="label">Disputes</div>
+                    <div class="value">3</div>
+                </div>
+                <div class="box">
+                    <div class="icon">🌟</div>
+                    <div class="label">High Value Creators</div>
+                    <div class="value">7</div>
+                </div>
+                <div class="box">
+                    <div class="icon">📈</div>
+                    <div class="label">Growth Rate</div>
+                    <div class="value">+18%</div>
+                </div>
+            </div>
+
+
+
+
+            <div class="filters">
+                <label>From: <input type="date" id="fromDate"></label>
+                <label>To: <input type="date" id="toDate"></label>
+
+                <select id="quickFilter">
+                    <option value="">-- Quick Filter --</option>
+                    <option value="today">Today</option>
+                    <option value="yesterday">Yesterday</option>
+                    <option value="month">This Month</option>
+                </select>
+
+                <input type="text" id="searchInput" placeholder="Search by name or email" />
+
+                <select id="statusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="Active">Active</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Suspended">Suspended</option>
+                </select>
+
+                <select id="typeFilter">
+                    <option value="">All Types</option>
+                    <option value="High Value">High Value</option>
+                    <option value="New">New</option>
+                    <option value="Regular">Regular</option>
+                </select>
+
+                <select id="sortBy">
+                    <option value="latest">Sort by Latest</option>
+                    <option value="oldest">Sort by Oldest</option>
+                </select>
+
+                <button onclick="filterTable()">Apply</button>
+                <button onclick="resetFilter()">Reset</button>
+                <button onclick="downloadPDF()">Download PDF</button>
+                <button onclick="downloadExcel()">Download Excel</button>
+            </div>
+            <h2>Creater Table</h2>
+            <div class="tableWapper">
+                <table id="employeeTable" style="background-color: white; border-radius: 10px;">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Earnings</th>
+                            <th>Wallet</th>
+                            <th>Products</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2025-07-23</td>
+                            <td>Harshit Raj</td>
+                            <td>harshit@example.com</td>
+                            <td>Active</td>
+                            <td>$1200</td>
+                            <td>$100</td>
+                            <td>10</td>
+                            <td><button onclick="editRow(0)">Edit</button> <button>View</button></td>
+                        </tr>
+                        <tr>
+                            <td>2025-07-22</td>
+                            <td>Jane Doe</td>
+                            <td>jane@email.com</td>
+                            <td>Pending</td>
+                            <td>$800</td>
+                            <td>$40</td>
+                            <td>5</td>
+                            <td><button onclick="editRow(1)">Edit</button> <button>View</button></td>
+                        </tr>
+                        <tr>
+                            <td>2025-07-01</td>
+                            <td>John Smith</td>
+                            <td>john@email.com</td>
+                            <td>Suspended</td>
+                            <td>$450</td>
+                            <td>$50</td>
+                            <td>12</td>
+                            <td><button onclick="editRow(2)">Edit</button> <button>View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="creatorModal" class="modal">
+                <div class="modal-content">
+                    <h3>Add New Creator</h3>
+                    <form id="creatorForm">
+                        <!-- Inside your <form id="creatorForm"> -->
+                        <input type="hidden" name="editIndex" />
+
+                        <label>Date: <input type="date" name="date" required></label>
+                        <label>Name: <input type="text" name="name" required></label>
+                        <label>Email: <input type="email" name="email" required></label>
+                        <label>Status:
+                            <select name="status" required>
+                                <option value="Active">Active</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Suspended">Suspended</option>
+                            </select>
+                        </label>
+                        <label>Earnings: <input type="text" name="earnings" required></label>
+                        <label>Wallet: <input type="text" name="wallet" required></label>
+                        <label>Products: <input type="number" name="products" required></label>
+
+                        <div class="modal-actions">
+                            <button type="submit">Save</button>
+                            <button type="button" onclick="closeModal()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const links = document.querySelectorAll('.sidebar-menu a');
+            const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
+
+            links.forEach(link => {
+                const href = link.getAttribute('href');
+                const page = href?.split('/').pop()?.replace('.html', '');
+                if (page === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Sidebar toggle logic
+            document.addEventListener('DOMContentLoaded', () => {
+                const toggleBtn = document.querySelector('.menu-toggle');
+                const sidebar = document.getElementById('sidebar');
+
+                toggleBtn.addEventListener('click', () => {
+                    sidebar.classList.toggle('collapsed');
+                    if (window.innerWidth <= 1024) {
+                        sidebar.classList.toggle('active');
+                    }
+                });
+            });
+
+
+
+
+
+        });
+
+
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+
+            if (window.innerWidth <= 1024) {
+                sidebar.classList.toggle('active');
+            }
+        }
+
+        const originalData = Array.from(document.querySelectorAll("#employeeTable tbody tr"));
+
+        function parseDate(dateStr) {
+            return new Date(dateStr + "T00:00:00");
+        }
+        function filterTable() {
+            const from = document.getElementById("fromDate").value;
+            const to = document.getElementById("toDate").value;
+            const quick = document.getElementById("quickFilter").value;
+            const search = document.getElementById("searchInput").value.toLowerCase();
+            const status = document.getElementById("statusFilter").value;
+            const sort = document.getElementById("sortBy").value;
+
+            const tbody = document.querySelector("#employeeTable tbody");
+            tbody.innerHTML = "";
+
+            let fromDate = from ? new Date(from + "T00:00:00") : null;
+            let toDate = to ? new Date(to + "T23:59:59") : null;
+
+            const today = new Date();
+            if (quick === "today") {
+                fromDate = toDate = new Date(today.toISOString().split("T")[0]);
+            } else if (quick === "yesterday") {
+                const y = new Date();
+                y.setDate(today.getDate() - 1);
+                fromDate = toDate = new Date(y.toISOString().split("T")[0]);
+            } else if (quick === "month") {
+                fromDate = new Date(today.getFullYear(), today.getMonth(), 1);
+                toDate = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            }
+
+            let filtered = originalData.filter(row => {
+                const dateStr = row.children[0].textContent;
+                const name = row.children[1].textContent.toLowerCase();
+                const email = row.children[2].textContent.toLowerCase();
+                const rowStatus = row.children[3].textContent.toLowerCase();
+                const rowDate = new Date(dateStr);
+
+                return (
+                    (!fromDate || rowDate >= fromDate) &&
+                    (!toDate || rowDate <= toDate) &&
+                    (!search || name.includes(search) || email.includes(search)) &&
+                    (!status || rowStatus === status.toLowerCase())
+                );
+            });
+
+            filtered.sort((a, b) => {
+                const dateA = new Date(a.children[0].textContent);
+                const dateB = new Date(b.children[0].textContent);
+                return sort === "latest" ? dateB - dateA : dateA - dateB;
+            });
+
+            filtered.forEach(row => tbody.appendChild(row.cloneNode(true)));
+        }
+
+
+        function resetFilter() {
+            document.getElementById("fromDate").value = "";
+            document.getElementById("toDate").value = "";
+            document.getElementById("quickFilter").value = "";
+            document.getElementById("sortBy").value = "latest";
+
+            const tbody = document.querySelector("#employeeTable tbody");
+            tbody.innerHTML = "";
+            originalData.forEach(row => tbody.appendChild(row.cloneNode(true)));
+        }
+
+        async function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const rows = [...document.querySelectorAll("#employeeTable tbody tr")].map(tr =>
+                [...tr.children].map(td => td.textContent)
+            );
+
+            doc.text("Employee Table", 20, 10);
+            rows.forEach((row, i) => {
+                row.forEach((cell, j) => {
+                    doc.text(cell, 20 + j * 40, 20 + i * 10);
+                });
+            });
+
+            doc.save("table.pdf");
+        }
+
+        function downloadExcel() {
+            const wb = XLSX.utils.book_new();
+            const ws_data = [
+                ["Date", "Name", "Email", "Role"],
+                ...[...document.querySelectorAll("#employeeTable tbody tr")].map(tr =>
+                    [...tr.children].map(td => td.textContent)
+                )
+            ];
+            const ws = XLSX.utils.aoa_to_sheet(ws_data);
+            XLSX.utils.book_append_sheet(wb, ws, "Employees");
+            XLSX.writeFile(wb, "table.xlsx");
+        }
+
+
+        const modal = document.getElementById("creatorModal");
+        const form = document.getElementById("creatorForm");
+        const addBtn = document.getElementById("addCreatorBtn");
+        const tableBody = document.querySelector("#employeeTable tbody");
+        modal.style.display = "none";
+
+        addBtn.onclick = () => {
+            modal.style.display = "flex";
+            modal.style.justifyContent = "center";
+            modal.style.alignItems = "center";
+        };
+
+        function closeModal() {
+            modal.style.display = "none";
+            form.reset();
+        }
+
+        form.onsubmit = function (e) {
+            e.preventDefault();
+
+            const data = new FormData(form);
+            const values = {
+                date: data.get("date"),
+                name: data.get("name"),
+                email: data.get("email"),
+                status: data.get("status"),
+                earnings: data.get("earnings"),
+                wallet: data.get("wallet"),
+                products: data.get("products"),
+                editIndex: data.get("editIndex")
+            };
+
+            if (values.editIndex) {
+                // Editing an existing row
+                const row = tableBody.children[values.editIndex];
+                row.innerHTML = `
+      <td>${values.date}</td>
+      <td>${values.name}</td>
+      <td>${values.email}</td>
+      <td>${values.status}</td>
+      <td>${values.earnings}</td>
+      <td>${values.wallet}</td>
+      <td>${values.products}</td>
+      <td><button onclick="editRow(${values.editIndex})">Edit</button> <button>View</button></td>
+    `;
+                originalData[values.editIndex] = row.cloneNode(true);
+            } else {
+                // New row
+                const newRow = document.createElement("tr");
+                newRow.innerHTML = `
+      <td>${values.date}</td>
+      <td>${values.name}</td>
+      <td>${values.email}</td>
+      <td>${values.status}</td>
+      <td>${values.earnings}</td>
+      <td>${values.wallet}</td>
+      <td>${values.products}</td>
+      <td> <button>View</button> <button onclick="editRow(${tableBody.children.length})">Edit</button></td>
+    `;
+                tableBody.appendChild(newRow);
+                originalData.push(newRow.cloneNode(true));
+            }
+
+            closeModal();
+        };
+
+        function editRow(index) {
+            const row = tableBody.children[index];
+            const cells = row.children;
+
+            // Populate form fields with current row data
+            form.date.value = cells[0].textContent;
+            form.name.value = cells[1].textContent;
+            form.email.value = cells[2].textContent;
+            form.status.value = cells[3].textContent;
+            form.earnings.value = cells[4].textContent;
+            form.wallet.value = cells[5].textContent;
+            form.products.value = cells[6].textContent;
+            form.editIndex.value = index;
+
+            // Show the modal
+            modal.style.display = "flex";
+            modal.style.justifyContent = "center";
+            modal.style.alignItems = "center";
+        }
+
+        // Close modal on outside click
+        window.onclick = function (e) {
+            if (e.target === modal) closeModal();
+        };
+
+
+    </script>
+
+</body>
+
+</html>
