@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order List</title>
+  <link rel="shortcut icon" href="https://i.postimg.cc/QCdCWQJ1/orderlist.png" type="image/x-icon">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to Right, #f0f4ff, #e0e7ff);
+
+    }
+
+    .mainContainer {
+      display: flex;
+      flex-direction: row;
+      height: 100vh;
+      overflow: hidden;
+
+    }
+
+
+    .sidebar {
+      margin-top: 80px;
+      width: 200px;
+      background-color: #ffffff37;
+      padding: 15px;
+    }
+
+
+
+
+    .sidebar h2 {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      /* text-align: center; */
+    }
+
+    .sidebar ul li {
+      margin: 15px 0;
+    }
+
+    .sidebar ul li a {
+      color: gray;
+      text-decoration: none;
+    }
+
+    .sidebar ul li a:hover {
+      color: #FF6B6B;
+    }
+
+    .sidebar-menu a.active {
+      background: linear-gradient(90deg, #FF6B6B 14.9%, #FF8E53 84.62%) !important;
+      color: white;
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .sidebar-menu img {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+
+    .menu-toggle {
+      /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+
+
+      background-color: #fff;
+      color: #000;
+      padding: 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 1001;
+      /* will be shown on small screens */
+    }
+
+
+    /* Sidebar default styles */
+    .sidebar {
+      width: 200px;
+      background-color: #fff;
+      padding: 15px;
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    /* Collapsed Sidebar (for large screen toggle) */
+    .sidebar.collapsed {
+      width: 70px;
+
+    }
+
+    .sidebar.collapsed .menu-text {
+      display: none;
+    }
+
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-menu img {
+      width: 30px;
+      height: 30px;
+      margin-right: 12px;
+    }
+
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      margin: 0;
+      padding: 20px;
+      padding-top: 0;
+    }
+
+    /* Base styles */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background-color: #ffffff;
+      /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); */
+      position: fixed;
+      width: 100vw;
+      top: 0;
+      z-index: 1000;
+      /* margin-left: -20px; */
+
+      /* border-radius: 30px; */
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .companylogo {
+      height: 60px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .creatorName {
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #333;
+      margin-top: 6rem;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .Creator-profile {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+        height: auto;
+        overflow: auto;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        /* left: -100%; */
+        width: 200px;
+        height: 100%;
+        z-index: 1000;
+        /* background-color: white; */
+        transition: left 0.3s ease;
+      }
+
+      .sidebar ul li {
+        margin: 10px;
+      }
+
+      .collapsed,
+      .active {
+        display: none;
+      }
+
+      .main {
+        margin-left: 0px;
+        padding-left: 0px;
+      }
+
+      .header {
+        /* flex-direction: column; */
+        align-items: flex-start;
+        padding: 16px;
+        gap: 12px;
+      }
+
+      .profile {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .creatorName {
+        font-size: 1rem;
+      }
+
+      .profile {
+        justify-content: flex-end;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        /* left: -100%; */
+        width: 200px;
+        height: 100%;
+        z-index: 1000;
+        /* background-color: white; */
+        transition: left 0.3s ease;
+      }
+
+
+
+      .main {
+
+        padding: 20px;
+      }
+
+      .sidebar ul {
+                display: flex;
+                flex-direction: column;
+                
+               
+            }
+
+      .sidebar ul li {
+        margin: 5px;
+      }
+
+      .creatorName {
+        font-size: 0.95rem;
+      }
+
+      .companylogo {
+        height: 50px;
+      }
+
+      .Creator-profile {
+        height: 36px;
+        width: 36px;
+      }
+
+      .profile span {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .companylogo {
+        padding-left: 20px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        /* left: -100%; */
+        width: 200px;
+        height: 100%;
+        z-index: 1000;
+        /* background-color: white; */
+        transition: left 0.3s ease;
+
+
+      }
+
+
+      .main {
+        padding: 20px;
+        /* margin-left: 60px; */
+
+      }
+
+      /* Show sidebar */
+      .sidebar.active {
+        left: 0;
+      }
+
+      /* Optional: If you want small version (like mini menu) */
+      .sidebar.collapsed {
+        width: 60px;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+
+      .sidebar.collapsed .sidebar-menu a {
+        display: none;
+        background: none;
+
+      }
+
+      .collapsed,
+      .active {
+        display: none;
+      }
+
+    }
+
+    .order-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(to bottom, #fff, #dbefff);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      align-items: center;
+      gap: 0.8rem;
+      transition: all 0.3s ease;
+      border-left: 4px solid #FF6B6B;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .total {
+
+      background: linear-gradient(to bottom, #fff, #dbefff);
+
+    }
+
+    .completed {
+      background: linear-gradient(to bottom, #fff, #dbefff);
+    }
+
+    .pending {
+      background: linear-gradient(to bottom, #fff, #dbefff);
+    }
+
+    .cancelled {
+      background: linear-gradient(to bottom, #fff, #dbefff);
+    }
+
+    .revenue {
+      background: linear-gradient(to bottom, #fff, #dbefff);
+    }
+
+    .card h4 {
+      font-size: large;
+      color:#666 ;
+      margin-bottom: 0.3rem;
+      opacity: 0.9;
+    }
+
+    .card p {
+      font-size: x-large;
+      font-weight: bold;
+      color: #4F87BC;
+      /* font-weight: bold; */
+      margin: 0;
+    }
+
+
+    .filter-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 20px;
+      /* background: #fff; */
+      padding: 15px;
+      border-radius: 8px;
+    }
+
+    .filter-section input,
+    .filter-section select,
+    .filter-section button {
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .filter-section button {
+      background: linear-gradient(90deg, #FF6B6B 14.9%, #FF8E53 84.62%) !important;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .filter-section button:hover {
+      background: linear-gradient(90deg, #FF6B6B 14.9%, #FF8E53 84.62%) !important;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1000px;
+    }
+
+    thead {
+      background: #4F87BC;
+            box-shadow: #000000 0px 0px 6px;
+
+      color: #fff;
+      /* background: linear-gradient(to bottom, #fff, #dbefff);
+      color: #000; */
+    }
+
+    th,
+    td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+      .filter-section {
+        flex-direction: column;
+      }
+
+      .filter-section input,
+      .filter-section select,
+      .filter-section button {
+        width: 100%;
+      }
+
+      th,
+      td {
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+    }
+
+    a {
+      text-decoration: none;
+      color: #4F87BC;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="header-left">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+      <img class="companylogo" src="https://i.postimg.cc/Y2Rmq9zQ/companylogo.webp" alt="">
+    </div>
+
+
+    <div class="profile">
+
+      <img class="Creator-profile" src="https://i.postimg.cc/7hKCBsZK/beneficiary.png" alt="">
+
+      <span>🔔</span>
+
+    </div>
+  </div>
+  <div class="mainContainer">
+     <div class="sidebar" id="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="index.html"><img src="https://i.postimg.cc/c4JtKSF2/dashboard.png" alt=""><span
+                            class="menu-text">Dashboard</span></a>
+                </li>
+                <li><a href="earning&payouts.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+                            class="menu-text">Earnings & Payout</span> </a></li>
+                <li><a href="creator.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+                            class="menu-text">Creator List</span> </a></li>
+                <li><a href="creatorsProducts.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+                            class="menu-text">Creators Product</span> </a></li>
+                <li><a href="creatorsOrderlist.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+                            class="menu-text">Creators OrderList</span> </a></li>
+                <li><a href="beneficiary&payment.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png"
+                            alt=""><span class="menu-text">Beneficiary</span> </a></li>
+
+                <li><a href="support&dispute.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
+                            class="menu-text">Support&Dispute</span> </a></li>
+                <li><a href="team&employees.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
+                            class="menu-text">Team&Employees</span> </a></li>
+                <li><a href="setting.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
+                            class="menu-text">Settings</span> </a></li>
+            </ul>
+            <a href="" class="logout"><span class="menu-text">Log Out</span></a>
+
+        </div>
+
+
+    <div class="main">
+      <div class="creatorName">Welcome, Amit 👋</div>
+
+
+      <section class="order-summary" id="orderSummary">
+        <!-- Cards will be inserted by JS -->
+      </section>
+
+
+
+
+      <div class="filter-section">
+        <label for="fromDate">From:
+
+          <input type="date" id="fromDate" placeholder="From Date"></label>
+        <label for="todate">To:
+
+          <input type="date" id="toDate" placeholder="To Date"></label>
+
+        <select id="statusFilter">
+          <option value="">All Status</option>
+          <option value="Paid">Paid</option>
+          <option value="Pending">Pending</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+
+        <input type="text" id="orderSearch" placeholder="Search by Order ID">
+
+        <button onclick="filterTable()">Get Data</button>
+        <button onclick="downloadPDF()">Download All</button>
+      </div>
+
+      <!-- Table Section -->
+      <div class="table-wrapper">
+        <table id="orderTable">
+          <thead>
+            <tr>
+              <th>Sno.</th>
+              <th>Order ID</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Mobile No.</th>
+              <th>Product</th>
+              <th>Create Date</th>
+              <th>Amount</th>
+              <th>Payment Status</th>
+              <th>Invoice</th>
+              <th>KYC Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>#ORD1234</td>
+              <td>John Doe</td>
+              <td>john@example.com</td>
+              <td>9876543210</td>
+              <td>Smartwatch</td>
+              <td>2025-07-01</td>
+              <td>₹2,999</td>
+              <td>Paid</td>
+              <td><a href="#" onclick="downloadInvoice(this)">Download</a></td>
+              <td><a href="#">View</a></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>#ORD5678</td>
+              <td>Jane Smith</td>
+              <td>jane@example.com</td>
+              <td>8765432109</td>
+              <td>Headphones</td>
+              <td>2025-07-06</td>
+              <td>₹1,499</td>
+              <td>Pending</td>
+              <td><a href="#" onclick="downloadInvoice(this)">Download</a></td>
+              <td><a href="#">View</a></td>
+            </tr>
+            <td>3</td>
+            <td>#ORD1236</td>
+            <td>Mohit Verma</td>
+            <td>mohitv@example.com</td>
+            <td>9988776655</td>
+            <td>Laptop Backpack</td>
+            <td>2025-07-05</td>
+            <td>₹1,199</td>
+            <td>Pending</td>
+            <td><a href="#" onclick="downloadInvoice(this)">Download</a></td>
+            <td><a href="#">View</a></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>#ORD1237</td>
+              <td>Anita Kapoor</td>
+              <td>anita.k@example.com</td>
+              <td>9876501234</td>
+              <td>Bluetooth Speaker</td>
+              <td>2025-07-04</td>
+              <td>₹2,499</td>
+              <td>Paid</td>
+              <td><a href="#" onclick="downloadInvoice(this)">Download</a></td>
+              <td><a href="#">View</a></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>#ORD1238</td>
+              <td>Ravi Shah</td>
+              <td>ravishah@example.com</td>
+              <td>9765432100</td>
+              <td>Fitness Tracker</td>
+              <td>2025-07-03</td>
+              <td>₹3,299</td>
+              <td>Failed</td>
+              <td><a href="#" onclick="downloadInvoice(this)">Download</a></td>
+              <td><a href="#">View</a></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td>#ORD1239</td>
+              <td>Priya Mehra</td>
+              <td>priya.m@example.com</td>
+              <td>9898989898</td>
+              <td>Noise Cancelling Headphones</td>
+              <td>2025-07-02</td>
+              <td>₹5,499</td>
+              <td>Paid</td>
+              <td><a href="#" onclick="downloadInvoice(this)">Download</a></td>
+              <td><a href="#">View</a></td>
+            </tr>
+
+            <!-- Add more r-->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const links = document.querySelectorAll('.sidebar-menu a');
+      const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
+
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        const page = href?.split('/').pop()?.replace('.html', '');
+        if (page === currentPage) {
+          link.classList.add('active');
+        }
+      });
+
+      // Sidebar toggle logic
+      document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.querySelector('.menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleBtn.addEventListener('click', () => {
+          sidebar.classList.toggle('collapsed');
+          if (window.innerWidth <= 1024) {
+            sidebar.classList.toggle('active');
+          }
+        });
+      });
+
+
+
+
+
+    });
+
+
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('collapsed');
+
+      if (window.innerWidth <= 1024) {
+        sidebar.classList.toggle('active');
+      }
+    }
+
+
+
+
+    const orderStats = {
+      totalOrders: 340,
+      completedOrders: 290,
+      pendingOrders: 30,
+      cancelledOrders: 20,
+      totalRevenue: 875000
+    };
+
+    const summaryData = [
+      { label: 'Total Orders', value: orderStats.totalOrders, class: 'total' },
+      { label: 'Completed Orders', value: orderStats.completedOrders, class: 'completed' },
+      { label: 'Pending Orders', value: orderStats.pendingOrders, class: 'pending' },
+      { label: 'Cancelled Orders', value: orderStats.cancelledOrders, class: 'cancelled' },
+    ];
+
+    const summaryContainer = document.getElementById('orderSummary');
+
+    summaryData.forEach(stat => {
+      const card = document.createElement('div');
+      card.className = `card ${stat.class}`;
+      card.innerHTML = `
+        <h4>${stat.label}</h4>
+        <p>${stat.value}</p>
+      `;
+      summaryContainer.appendChild(card);
+    });
+
+
+
+    function filterTable() {
+      const fromDate = document.getElementById("fromDate").value;
+      const toDate = document.getElementById("toDate").value;
+      const status = document.getElementById("statusFilter").value.toLowerCase();
+      const orderSearch = document.getElementById("orderSearch").value.toLowerCase();
+
+      const rows = document.querySelectorAll("#orderTable tbody tr");
+
+      rows.forEach(row => {
+        const orderId = row.cells[1].textContent.toLowerCase();
+        const date = row.cells[6].textContent;
+        const rowStatus = row.cells[8].textContent.toLowerCase();
+
+        let show = true;
+
+        if (orderSearch && !orderId.includes(orderSearch)) show = false;
+        if (status && rowStatus !== status) show = false;
+        if (fromDate && new Date(date) < new Date(fromDate)) show = false;
+        if (toDate && new Date(date) > new Date(toDate)) show = false;
+
+        row.style.display = show ? "" : "none";
+      });
+    }
+
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.text("Order Table Report", 14, 15);
+
+      const table = document.getElementById("orderTable");
+      const rows = [];
+      const headers = [];
+
+      // Extract headers
+      table.querySelectorAll("thead th").forEach(th => {
+        headers.push(th.textContent.trim());
+      });
+
+      // Extract visible rows
+      table.querySelectorAll("tbody tr").forEach(tr => {
+        if (tr.style.display !== "none") {
+          const row = [];
+          tr.querySelectorAll("td").forEach(td => {
+            row.push(td.textContent.trim());
+          });
+          rows.push(row);
+        }
+      });
+
+      doc.autoTable({
+        head: [headers],
+        body: rows,
+        startY: 20,
+        styles: {
+          fontSize: 8,
+          cellPadding: 3
+        },
+        headStyles: {
+          fillColor: [79, 70, 229]
+        }
+      });
+
+      doc.save("orders.pdf");
+    }
+
+
+    async function downloadInvoice(link) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Get the row <tr> of the clicked download link
+      const row = link.closest("tr");
+      const cells = row.querySelectorAll("td");
+
+      // Extract data
+      const invoiceData = {
+        sno: cells[0].textContent.trim(),
+        orderId: cells[1].textContent.trim(),
+        username: cells[2].textContent.trim(),
+        email: cells[3].textContent.trim(),
+        mobile: cells[4].textContent.trim(),
+        product: cells[5].textContent.trim(),
+        date: cells[6].textContent.trim(),
+        amount: cells[7].textContent.trim(),
+        status: cells[8].textContent.trim()
+      };
+
+      // Title
+      doc.setFontSize(16);
+      doc.text("Invoice", 14, 20);
+
+      // Details
+      doc.setFontSize(12);
+      const marginY = 30;
+      let y = marginY;
+
+      for (let [label, value] of Object.entries(invoiceData)) {
+        doc.text(`${label.charAt(0).toUpperCase() + label.slice(1)}: ${value}`, 14, y);
+        y += 8;
+      }
+
+      // Save the PDF
+      doc.save(`${invoiceData.orderId}_invoice.pdf`);
+    }
+
+
+  </script>
+
+</body>
+
+</html>

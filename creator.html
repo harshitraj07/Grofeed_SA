@@ -389,26 +389,29 @@
 
 
         .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
             margin-top: 2rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
         }
 
         .box {
-            flex: 1 1 calc(33.33% - 40px);
-            background-color: white;
+            flex-direction: column;
+            background: linear-gradient(to bottom, #fff, #dbefff);
             border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            min-width: 250px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             text-align: center;
-            transition: transform 0.2s ease;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid #FF6B6B;
         }
 
         .box:hover {
-            transform: translateY(-4px);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
         }
 
         .icon {
@@ -417,14 +420,18 @@
         }
 
         .label {
-            font-size: 16px;
-            color: #555;
+            font-size: large;
+            color: #666;
+            margin-bottom: 0.3rem;
+            opacity: 0.9;
         }
 
         .value {
-            font-size: 24px;
+            font-size: x-large;
             font-weight: bold;
-            color: #4f21c7;
+            color: #4F87BC;
+            /* font-weight: bold; */
+            margin: 0;
         }
 
         @media (max-width: 768px) {
@@ -557,9 +564,11 @@
                 <li><a href="earning&payouts.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
                             class="menu-text">Earnings & Payout</span> </a></li>
                 <li><a href="creator.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
-                            class="menu-text">Creators List</span> </a></li>
+                            class="menu-text">Creator List</span> </a></li>
                 <li><a href="creatorsProducts.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
                             class="menu-text">Creators Product</span> </a></li>
+                <li><a href="creatorsOrderlist.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png" alt=""><span
+                            class="menu-text">Creators OrderList</span> </a></li>
                 <li><a href="beneficiary&payment.html"><img src="https://i.postimg.cc/QCdCWQJ1/orderlist.png"
                             alt=""><span class="menu-text">Beneficiary</span> </a></li>
 
@@ -569,7 +578,6 @@
                             class="menu-text">Team&Employees</span> </a></li>
                 <li><a href="setting.html"><img src="https://i.postimg.cc/CxX8TQHt/settings-1.png" alt=""><span
                             class="menu-text">Settings</span> </a></li>
-
             </ul>
             <a href="" class="logout"><span class="menu-text">Log Out</span></a>
 
